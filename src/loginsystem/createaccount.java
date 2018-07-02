@@ -5,8 +5,14 @@
  */
 package loginsystem;
 
+import com.mysql.jdbc.PreparedStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
- *
  * @author yohan
  */
 public class createaccount extends javax.swing.JFrame {
@@ -14,8 +20,12 @@ public class createaccount extends javax.swing.JFrame {
     /**
      * Creates new form createaccount
      */
+    Connection con = null;
+    PreparedStatement pst1 =null;
+    
     public createaccount() {
         initComponents();
+        con = LoginSystem.conn();
     }
 
     /**
@@ -106,9 +116,24 @@ public class createaccount extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String name =jTextField1.getText();
+        String email = jTextField2.getText();
+        String pass = jTextField3.getText();
+        
+        String Query = "Insert  into detailspage(UserName,Email,Password)VALUES('"+name+"','"+email+"','"+pass+"')";
+        try {
+         pst1 = (PreparedStatement) con.prepareStatement(Query);
+         pst1.execute();
          NewJFrame n = new NewJFrame();
          n.setVisible(true);
-         this.dispose();
+         this.dispose(); 
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        
+        
+
+         
          
     }//GEN-LAST:event_jButton1ActionPerformed
 
